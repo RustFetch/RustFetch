@@ -13,9 +13,7 @@
   <br>
   <b>Currently in Development</b>
 </div>
-
 <hr>
-
 <div>
   <img src="https://github.com/RustFetch/RustFetch/actions/workflows/rust-build.yml/badge.svg" alt="Actions">
   <img src="https://img.shields.io/badge/Alpha-0.1.0-orange" alt="Version - 0.1.0">
@@ -56,12 +54,8 @@
 <div>
   <h3 id="screenshots">Screenshots</h3>
   
-  <img src="https://github.com/RustFetch/RustFetch/assets/112782958/dd8ae54f-ff91-4dfd-9a4f-086f5c8e35de" align="right">
-
-  <br clear="right">
-  <p></p>
-  <br clear="right">
-  
+  <img src="https://github.com/RustFetch/RustFetch/assets/112782958/dd8ae54f-ff91-4dfd-9a4f-086f5c8e35de">
+  <p></p>  
   <img src="https://github.com/RustFetch/RustFetch/assets/112782958/45044daf-5119-4b3e-a23c-2fb8279ac6f5">
 </div>
 
