@@ -14,5 +14,5 @@ pad = "0.1.6"
 cargo-run = "0.4.0"
 
 [project.authors]
-name = "Hazel Thomas"
-name = "SurgeDevs"
+Hazel = "Hazel Thomas"
+SurgeDevs = "SurgeDevs"
