@@ -63,4 +63,5 @@ Some of the features we have planned are the following:
     $ cargo build --release
   ```
   The binary for your operating system *should* be built inside of <code>./target/release/rust_fetch</code>
+
 ![](./images/rustfetch-compile.gif)  
