@@ -3,6 +3,7 @@ mod art;
 use colored::Colorize;
 use indexmap::IndexMap;
 use pad::PadStr;
+use std::env;
 use regex::Regex;
 use std::io::{stdout, Write};
 use sysinfo::{System, Users};
@@ -162,6 +163,15 @@ fn main() {
 
     let mut occourances = IndexMap::new();
 
+    let args: Vec<String> = env::args().collect();
+    let hide_cpu = args.contains(&"--hide-cpu".to_string());
+    let hide_memory = args.contains(&"--hide-memory".to_string());
+    let hide_uptime = args.contains(&"--hide-uptime".to_string());
+    let hide_os= args.contains(&"--hide-os".to_string());
+    let hide_host = args.contains(&"--hide-host".to_string());
+    let hide_kernel = args.contains(&"--hide-kernel".to_string());
+    let hide_shell = args.contains(&"--hide-shell".to_string());
+
     regexp
         .find_iter(&image)
         .for_each(|m| {
@@ -210,23 +220,39 @@ fn main() {
     system_info.push_str(&header);
 
     let mut info_map = IndexMap::new();
-    info_map.insert("OS".to_string(), get_os());
-    info_map.insert("Host".to_string(), get_device_name());
-    info_map.insert("Kernel".to_string(), get_kernel());
-    info_map.insert("Uptime".to_string(), get_uptime());
-    info_map.insert("Shell".to_string(), get_shell(&sys));
 
-    let cpus = get_cpu(&sys);
+    if !hide_os {
+        info_map.insert("OS".to_string(), get_os());
+    }
+    if !hide_host {
+        info_map.insert("Host".to_string(), get_device_name());
+    }
+    if !hide_kernel {
+        info_map.insert("Kernel".to_string(), get_kernel());
+    }
+    if !hide_uptime {
+        info_map.insert("Uptime".to_string(), get_uptime());
+    }
+    if !hide_shell {
+        info_map.insert("Shell".to_string(), get_shell(&sys));
+    }
 
-    if cpus.len() == 1 {
-        info_map.insert("CPU".to_string(), cpus[0].to_string());
-    } else {
-        for (i, cpu) in cpus.iter().enumerate() {
-            info_map.insert(format!("CPU {} ", i + 1), cpu.to_string());
+    let sys = System::new_all();
+    if !hide_cpu {
+        let cpus = get_cpu(&sys);
+
+        if cpus.len() == 1 {
+            info_map.insert("CPU".to_string(), cpus[0].to_string());
+        } else {
+            for (i, cpu) in cpus.iter().enumerate() {
+                info_map.insert(format!("CPU {} ", i + 1), cpu.to_string());
+            }
         }
     }
 
+    if !hide_memory {
     info_map.insert("Memory".to_string(), get_memory(&sys));
+    }
 
     for (info_key, info_value) in info_map.iter() {
         if info_value.is_empty() {
