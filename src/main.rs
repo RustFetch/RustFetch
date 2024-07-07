@@ -1,7 +1,11 @@
 mod art;
+mod configuration;
 mod image_handler;
 mod system_information;
+mod command_line_interface;
 
+use command_line_interface::CommandLineInterace;
+use configuration::Configuration;
 use image_handler::ImageHandler;
 use indexmap::IndexMap;
 use std::env;
@@ -9,13 +13,15 @@ use std::io::{stdout, Write};
 use system_information::SystemInformation;
 
 fn main() {
+    let args: Vec<String> = env::args().collect();
+
+    let config = Configuration::new(args.contains(&"--no-config".to_string()));
     let image = art::get_image();
     let mut image_handler = ImageHandler::new(image);
     let sys = SystemInformation::new();
     let mut lock = stdout().lock();
     let mut system_info = String::new();
 
-    let args: Vec<String> = env::args().collect();
     let hide_cpu = args.contains(&"--hide-cpu".to_string());
     let hide_memory = args.contains(&"--hide-memory".to_string());
     let hide_uptime = args.contains(&"--hide-uptime".to_string());
