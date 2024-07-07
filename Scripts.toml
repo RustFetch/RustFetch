@@ -6,4 +6,3 @@ dev = "cargo run"
 build = { command = "cargo build", env = { RUST_LOG = "info" } }
 release = "cargo build --release"
 test = { command = "cargo test", env = { RUST_LOG = "warn" } }
-doc = "cargo doc --no-deps --open"
