@@ -12,7 +12,3 @@ pad = "0.1.6"
 
 [dev-dependencies]
 cargo-run = "0.4.0"
-
-[project.authors]
-Hazel = "Hazel Thomas"
-SurgeDevs = "SurgeDevs"
