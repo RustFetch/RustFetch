@@ -21,11 +21,34 @@ Currently, we have a limited set of features for RustFetch, but we have some lar
     <li>Getting the current user and host</li>
     <li>OS and kernel information</li>
     <li>Uptime</li>
+    <li>Command Line Arguments</li>
     <li>The current shell</li>
     <li>CPU (+ Multi-CPU)</li>
     <li>Used and total RAM</li>
     <li>Terminal color display</li>
   </ul>
+
+## Customisation
+
+To customize the behavior of RustFetch, you can use command line arguments. Here are some of the available options:
+
+- `--hide-cpu`: Hides the CPU information in the output.
+- `--hide-memory`: Hides the RAM information in the output.
+- `--hide-uptime`: Hides the uptime in the output.
+- `--hide-os`: Hides the OS information in the output.
+- `--hide-host`: Hides the host in the output.
+- `--hide-kernel`: Hides the kernel information in the output.
+- `--hide-shell`: Hides the shell in the output.
+
+You can use these arguments individually or in combination to tailor the output according to your preferences.
+
+Here's an example of how to use the `--hide-cpu` argument:
+
+```bash
+$ rust_fetch --hide-cpu
+```
+
+By using this argument, the CPU information will not be displayed in the output.
 
 ## Planned Features
 We have a wide range of features that people usually are looking for, and have plans to implement them all and keep it simple!
