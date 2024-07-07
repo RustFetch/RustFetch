@@ -112,7 +112,7 @@ fn get_cpu(sys: &System) -> Vec<&str> {
 fn get_memory(sys: &System) -> String {
     let used = sys.used_memory() / 1048576;
     let total = sys.total_memory() / 1048576;
-    format!("{} / {} MiB", used, total)
+    format!("{}MiB / {}MiB", used, total)
 }
 
 fn get_shell(sys: &System) -> String {
