@@ -1,28 +1,33 @@
 mod art;
+mod command_line_interface;
 mod image_handler;
 mod system_information;
 
+use command_line_interface::CommandLineInterace;
 use image_handler::ImageHandler;
 use indexmap::IndexMap;
-use std::env;
+use std::collections::HashMap;
 use std::io::{stdout, Write};
+use std::process::exit;
 use system_information::SystemInformation;
 
 fn main() {
+    let mut cli = CommandLineInterace::new();
+    cli.check_for_help();
+    let arg_map: HashMap<_, _>  = cli.get_args().iter().map(|arg| {
+        (arg.name.as_str(), arg)
+    }).into_iter().collect();
+
+    if arg_map.get("version").unwrap().passed {
+        println!("{}", env!("CARGO_PKG_VERSION"));
+        exit(0);
+    }
+
     let image = art::get_image();
     let mut image_handler = ImageHandler::new(image);
     let sys = SystemInformation::new();
     let mut lock = stdout().lock();
     let mut system_info = String::new();
-
-    let args: Vec<String> = env::args().collect();
-    let hide_cpu = args.contains(&"--hide-cpu".to_string());
-    let hide_memory = args.contains(&"--hide-memory".to_string());
-    let hide_uptime = args.contains(&"--hide-uptime".to_string());
-    let hide_os = args.contains(&"--hide-os".to_string());
-    let hide_host = args.contains(&"--hide-host".to_string());
-    let hide_kernel = args.contains(&"--hide-kernel".to_string());
-    let hide_shell = args.contains(&"--hide-shell".to_string());
 
     let user_string = sys.get_user();
     let host_string = sys.get_host();
@@ -46,23 +51,23 @@ fn main() {
 
     let mut info_map = IndexMap::new();
 
-    if !hide_os {
+    if !arg_map.get("hide-os").unwrap().passed {
         info_map.insert("OS".to_string(), sys.get_os());
     }
-    if !hide_host {
+    if !arg_map.get("hide-host").unwrap().passed {
         info_map.insert("Host".to_string(), sys.get_device_name());
     }
-    if !hide_kernel {
+    if !arg_map.get("hide-kernel").unwrap().passed {
         info_map.insert("Kernel".to_string(), sys.get_kernel());
     }
-    if !hide_uptime {
+    if !arg_map.get("hide-uptime").unwrap().passed {
         info_map.insert("Uptime".to_string(), sys.get_uptime());
     }
-    if !hide_shell {
+    if !arg_map.get("hide-shell").unwrap().passed {
         info_map.insert("Shell".to_string(), sys.get_shell());
     }
 
-    if !hide_cpu {
+    if !arg_map.get("hide-cpu").unwrap().passed {
         let cpus = sys.get_cpu();
 
         if cpus.len() == 1 {
@@ -74,7 +79,7 @@ fn main() {
         }
     }
 
-    if !hide_memory {
+    if !arg_map.get("hide-memory").unwrap().passed {
         info_map.insert("Memory".to_string(), sys.get_memory());
     }
 
@@ -90,7 +95,10 @@ fn main() {
     }
 
     system_info.push('\n');
-    system_info.push_str(&sys.get_colors());
+
+    if !arg_map.get("hide-colors").unwrap().passed {
+        system_info.push_str(&sys.get_colors());
+    }
 
     let lines = image_handler.interpolate_image(system_info);
 

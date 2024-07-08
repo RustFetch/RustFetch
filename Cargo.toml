@@ -1,14 +1,15 @@
 [package]
 name = "rust_fetch"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 
 [dependencies]
 sysinfo = "0.30.12"
-colored = "2.1.0"
 indexmap = "2.2.6"
 regex = "1.10.5"
 pad = "0.1.6"
+home = "0.5.9"
+toml = "0.8.14"
 
 [dev-dependencies]
 cargo-run = "0.4.0"
