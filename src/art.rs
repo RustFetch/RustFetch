@@ -1,23 +1,56 @@
-use std::env::consts::OS;
-
+#[allow(unused_imports)]
 use sysinfo::System;
 
+#[allow(dead_code)]
+#[cfg(target_family = "windows")]
+pub fn get_image() -> String {
+    windows()
+}
+
+#[allow(dead_code)]
+#[cfg(target_family = "macos")]
+pub fn get_image() -> String {
+    macos()
+}
+
+#[allow(dead_code)]
+#[cfg(target_family = "unix")]
+pub fn get_image() -> String {
+    return match System::distribution_id().as_str() {
+        "ubuntu" => ubuntu(),
+        "fedora" => fedora(),
+        "debian" => debian(),
+        "proxmox" => proxmox(),
+        "arch" => arch(),
+        _ => linux_default(),
+    };
+}
+
+#[allow(dead_code)]
+#[cfg(not(any(
+    target_family = "windows",
+    target_family = "macos",
+    target_family = "unix"
+)))]
 pub fn get_image() -> String {
     return match OS {
         "windows" => windows(),
         "macos" => macos(),
-        "linux" => match System::distribution_id().as_str() {
-            "ubuntu" => ubuntu(),
-            "fedora" => fedora(),
-            "debian" => debian(),
-            "proxmox" => proxmox(),
-            "arch" => arch(),
-            _ => linux_default(),
-        },
-        _ => rust_fetch(),
+        "linux" => {
+            return match System::distribution_id().as_str() {
+                "ubuntu" => ubuntu(),
+                "fedora" => fedora(),
+                "debian" => debian(),
+                "proxmox" => proxmox(),
+                "arch" => arch(),
+                _ => linux_default(),
+            };
+        }
+        _ => linux_default(),
     };
 }
 
+#[allow(dead_code)]
 fn windows() -> String {
     "\x1b[94mLLLLLLLLLLLLLLLL   LLLLLLLLLLLLLLLL\x1b[0m
 \x1b[94mLLLLLLLLLLLLLLLL   LLLLLLLLLLLLLLLL\x1b[0m
@@ -37,7 +70,8 @@ fn windows() -> String {
         .to_string()
 }
 
-fn rust_fetch() -> String {
+#[allow(dead_code)]
+pub fn rust_fetch() -> String {
     "RRRRRRRRRRRRRRRRRRRRRR
 RRRRRRRRRRRRRRRRRRRRRRRRRR
 RRRRRRRR        RRRRRRRRRRR
@@ -53,6 +87,7 @@ RRRRRRRR       \x1b[31m((((\x1b[0mRRRRRRRR"
         .to_string()
 }
 
+#[allow(dead_code)]
 fn ubuntu() -> String {
     "              \x1b[31mUUUUUUUUUUUUUUUUUUU\x1b[0m
           \x1b[31mUUUUUUUUUUUUUUUUUUUUUUUUUUU\x1b[0m
@@ -76,6 +111,7 @@ fn ubuntu() -> String {
         .to_string()
 }
 
+#[allow(dead_code)]
 fn debian() -> String {
     "                       ,##p,
               (DDDDDDDDDDDDDDDDDDDDD*
@@ -101,6 +137,7 @@ fn debian() -> String {
     .to_string()
 }
 
+#[allow(dead_code)]
 fn proxmox() -> String {
     "         PPPPPPPPPP             PPPPPPPPPP
           PPPPPPPPPP         PPPPPPPPPP
@@ -122,6 +159,7 @@ fn proxmox() -> String {
         .to_string()
 }
 
+#[allow(dead_code)]
 fn fedora() -> String {
     "                    (########(
             #######################
@@ -145,6 +183,7 @@ fn fedora() -> String {
         .to_string()
 }
 
+#[allow(dead_code)]
 fn macos() -> String {
     "                                 @@@
                            @@@@@@@
@@ -171,6 +210,7 @@ fn macos() -> String {
         .to_string()
 }
 
+#[allow(dead_code)]
 fn linux_default() -> String {
     "                .88888888:.
                88888888.88888.
@@ -201,6 +241,7 @@ fn linux_default() -> String {
         .to_string()
 }
 
+#[allow(dead_code)]
 fn arch() -> String {
     "                             (
                       (((
