@@ -1,4 +1,3 @@
-use colored::Colorize;
 use sysinfo::{System, Users};
 
 pub struct SystemInformation {
@@ -137,23 +136,23 @@ impl SystemInformation {
 
     pub fn get_colors(&self) -> String {
         format!(
-            "{}{}{}{}{}{}{}{}\n{}{}{}{}{}{}{}{}",
-            "   ".on_black(),
-            "   ".on_red(),
-            "   ".on_green(),
-            "   ".on_yellow(),
-            "   ".on_blue(),
-            "   ".on_magenta(),
-            "   ".on_cyan(),
-            "   ".on_white(),
-            "   ".on_bright_black(),
-            "   ".on_bright_red(),
-            "   ".on_bright_green(),
-            "   ".on_bright_yellow(),
-            "   ".on_bright_blue(),
-            "   ".on_bright_magenta(),
-            "   ".on_bright_cyan(),
-            "   ".on_bright_white(),
+            "{}{}{}{}{}{}{}{}\x1b[0m\n{}{}{}{}{}{}{}{}\x1b[0m",
+            "\x1b[40m   ",
+            "\x1b[41m   ",
+            "\x1b[42m   ",
+            "\x1b[43m   ",
+            "\x1b[44m   ",
+            "\x1b[45m   ",
+            "\x1b[46m   ",
+            "\x1b[47m   ",
+            "\x1b[100m   ",
+            "\x1b[101m   ",
+            "\x1b[102m   ",
+            "\x1b[103m   ",
+            "\x1b[104m   ",
+            "\x1b[105m   ",
+            "\x1b[106m   ",
+            "\x1b[107m   ",
         )
     }
 }
